@@ -31,10 +31,12 @@ Cara Instal :
 - pip2 install rsa
 - pip2 install thrift==0.9.3
 - pip2 install requests
+-pip2 install gtts
+pip2 install wikipedia
 
 Cara Menjalankan Botnya :
-- cd Koplaxs5Bot
-- python2 Koplaxs5Bot.py
+- cd masitabot
+- python2 masita.py
 
 Video Tutor :(HP Root)
 https://youtu.be/yYu6ZmiM_YI
