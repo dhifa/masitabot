@@ -3,7 +3,7 @@
 
 #Bot Protect Versi  1 admin dan 5  Bot
 # Koplaxs 5 Bot
-Koplaxs BOT Protect
+Masita BOT Protect
 Versi TCR
 =======================================
 Bot Protect TCR Versi 1 admin dan 5 Bot
@@ -49,6 +49,7 @@ Thanks For :
 - Alfathdirk
 - Farzain
 - Dan Kawan²
+edit from KoplaxsBot
 ================================
-Koplaxs & One Piece Team Protect
+Masita & One Piece Team Protect
 ================================
