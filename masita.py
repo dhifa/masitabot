@@ -33,7 +33,7 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 helpMessage ="""mᎯᎦi'ᎿᎯ ᎦᏋlᎰᏰᏫᎿ
-Owner : ✰Dhifa✰
+Owner : ✰Dhifa & fikri✰
 -==================-
 ◄]·♦·Menu For Public·♦·[►
 [•]Adminlist
@@ -50,6 +50,7 @@ Owner : ✰Dhifa✰
 ◄]·♦·Menu For Admin·♦·[►
 -==================-
 [•]Cancel
+[•]mybot
 [•]「Buka/Tutup」qr
 [•]Mid Bot
 [•]Speed/Sp
@@ -61,8 +62,14 @@ Owner : ✰Dhifa✰
 [•]Absen/Respon
 [•]Banlist
 [•]Allprotect on/off
+◄]·♦·invite Bot·♦·[►
+-==================-
+[•]All join
+[•]kaboor
 >>[Perintah Proteksi]<<
 👑Hanya Untuk Owner👑
+[•]admin add @
+[•]admin remove @
 -==================-
 mᎯᎦi'ᎿᎯ ᎦᏋlᎰᏰᏫᎿ
 -==================-
@@ -663,7 +670,7 @@ def bot(op):
                   cl.sendText(msg.to,"The stafflist is empty")
               else:
                   cl.sendText(msg.to,"Tunggu...")
-                  mc = "||Admin One Piece Bot||\n=====================\n"
+                  mc = "||Admin masita bot||\n=====================\n"
                   for mi_d in admin:
                       mc += "••>" +cl.getContact(mi_d).displayName + "\n"
                   cl.sendText(msg.to,mc)
@@ -2344,7 +2351,7 @@ def bot(op):
                     cl.sendText(msg.to,"Tidak bisa dilakukan di luar grup")
   
 	
-	   elif "Id@en" in msg.text:
+	    elif "Id@en" in msg.text:
                 bahasa_awal = 'id'
                 bahasa_tujuan = 'en'
                 kata = msg.text.replace("Id@en ","")
@@ -2359,7 +2366,7 @@ def bot(op):
 	
 	
 	
-	   elif 'music ' in msg.text.lower():
+	    elif 'music ' in msg.text.lower():
                 try:
                     songname = msg.text.lower().replace('music ','')
                     params = {'songname': songname}
@@ -2377,7 +2384,7 @@ def bot(op):
 		except Exception as njer:
 		        cl.sendText(msg.to, str(njer))
 	
-	   elif "/ig " in msg.text.lower():
+	    elif "/ig " in msg.text.lower():
                 arg = msg.text.split(' ');
                 nk0 = msg.text.replace("/ig ","")
                 nk1 = nk0.rstrip('  ')
@@ -2399,7 +2406,7 @@ def bot(op):
                         cl.sendText(msg.to,"Not Found...")
                 else:
                     cl.sendText(msg.to,"Contoh /ig hairu.ones")
-	   elif msg.text in ["Mimic on","mimic on"]:
+	    elif msg.text in ["Mimic on","mimic on"]:
                     if wait3["copy"] == True:
                         if wait["lang"] == "JP":
                             cl.sendText(msg.to,"Already on")
@@ -2411,7 +2418,7 @@ def bot(op):
                     		cl.sendText(msg.to,"Mimic On")
                         else:
     	                	cl.sendText(msg.to,"Already on")
-           elif msg.text in ["Mimic off","mimic:off"]:
+            elif msg.text in ["Mimic off","mimic:off"]:
                     if wait3["copy"] == False:
                         if wait["lang"] == "JP":
                             cl.sendText(msg.to,"Already on")
@@ -2423,7 +2430,7 @@ def bot(op):
                     		cl.sendText(msg.to,"Mimic Off")
                         else:
 	                    	cl.sendText(msg.to,"Already on")
-           elif msg.text in ["Target list"]:
+            elif msg.text in ["Target list"]:
                         if wait3["target"] == {}:
                             cl.sendText(msg.to,"nothing")
                         else:
@@ -2432,7 +2439,7 @@ def bot(op):
                                 mc += "✔ "+cl.getContact(mi_d).displayName + "\n"
                             cl.sendText(msg.to,mc)
 
-           elif "Mimic target " in msg.text:
+            elif "Mimic target " in msg.text:
                         if wait3["copy"] == True:
                             siapa = msg.text.replace("Mimic target ","")
                             if siapa.rstrip(' ') == "me":
@@ -2443,7 +2450,7 @@ def bot(op):
                                 cl.sendText(msg.to,"Mimic change to target")
                             else:
                                 cl.sendText(msg.to,"I dont know")
-           elif "Target @" in msg.text:
+            elif "Target @" in msg.text:
                         target = msg.text.replace("Target @","")
                         gc = cl.getGroup(msg.to)
                         targets = []
@@ -2456,7 +2463,7 @@ def bot(op):
                             for t in targets:
                                 wait3["target"][t] = True
                             cl.sendText(msg.to,"Target added")
-           elif "Del target @" in msg.text:
+            elif "Del target @" in msg.text:
                         target = msg.text.replace("Del target @","")
                         gc = cl.getGroup(msg.to)
                         targets = []
@@ -2470,7 +2477,7 @@ def bot(op):
                                 del wait3["target"][t]
                             cl.sendText(msg.to,"Target deleted")
 	
-	   elif "/youtube " in msg.text:
+	    elif "/youtube " in msg.text:
                 query = msg.text.replace("/youtube ","")
                 with requests.session() as s:
                     s.headers['user-agent'] = 'Mozilla/5.0'
@@ -2485,7 +2492,7 @@ def bot(op):
                     cl.sendText(msg.to,hasil)
                     print '[Command] Youtube Search'
 	
-	   elif "Apakah " in msg.text:
+	    elif "Apakah " in msg.text:
                   tanya = msg.text.replace("Apakah ","")
                   jawab = ("iya","Tidak")
                   jawaban = random.choice(jawab)
@@ -2494,7 +2501,7 @@ def bot(op):
                   cl.sendAudio(msg.to,'tts.mp3')
 
 	
-	   elif 'wikipedia ' in msg.text.lower():
+	    elif 'wikipedia ' in msg.text.lower():
                   try:
                       wiki = msg.text.lower().replace("wikipedia ","")
                       wikipedia.set_lang("id")
