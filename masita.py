@@ -2,7 +2,10 @@
 
 import LINETCR
 from LINETCR.lib.curve.ttypes import *
+from gtts import gTTS
 from datetime import datetime
+from bs4 import BeautifulSoup
+import requests,re,urllib2,os,cookielib,json,wikipedia
 import time,random,sys,json,codecs,threading,glob,re,os,subprocess
 
 cl = LINETCR.LINE() #Luffy
@@ -29,8 +32,8 @@ print "login success plak"
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-helpMessage ="""O҉n҉e҉ ҉P҉i҉e҉c҉e҉ ҉T҉e҉a҉m҉ ҉P҉r҉o҉t҉e҉c҉t҉
-Owner : ✰ЌờᎮḼΛẌֆ✰
+helpMessage ="""mᎯᎦi'ᎿᎯ ᎦᏋlᎰᏰᏫᎿ
+Owner : ✰Dhifa✰
 -==================-
 ◄]·♦·Menu For Public·♦·[►
 [•]Adminlist
@@ -39,6 +42,10 @@ Owner : ✰ЌờᎮḼΛẌֆ✰
 [•]Welcome
 [•]Creator
 [•]Bot
+[•]/youtube [judul]
+[•]/ig [username]
+[•] Apakah [teks]
+[•]music [judul]
 ◄]·♦·Menu For Admin·♦·[►
 -==================-
 [•]Cancel
@@ -52,10 +59,11 @@ Owner : ✰ЌờᎮḼΛẌֆ✰
 [•]Tag all/Tagall
 [•]Absen/Respon
 [•]Banlist
+[•]Allprotect on/off
 >>[Perintah Proteksi]<<
 👑Hanya Untuk Owner👑
 -==================-
-O҉n҉e҉ ҉P҉i҉e҉c҉e҉ ҉T҉e҉a҉m҉ ҉P҉r҉o҉t҉e҉c҉t҉
+mᎯᎦi'ᎿᎯ ᎦᏋlᎰᏰᏫᎿ
 -==================-
 """
 KAC=[cl,ki,kk,kc,ks]
@@ -76,8 +84,8 @@ Cmid = kc.getProfile().mid #Ussop
 Dmid = ks.getProfile().mid #Chooper
 
 Bots=[mid,Amid,Bmid,Cmid,Dmid]
-admin=["ued156c86ffa56024c0acba16f7889e6d"] 
-owner=["ued156c86ffa56024c0acba16f7889e6d"]
+admin=["u7e96d3b3f5b37ccffbebd18aa343e5f3"] 
+owner=["u7e96d3b3f5b37ccffbebd18aa343e5f3"]
 whitelist=[""]
 wait = {
     'contact':False,
@@ -87,8 +95,8 @@ wait = {
     'timeline':True,
     'autoAdd':True,
     'message':"""тerima Kasih Sudah Menambahkan Aku Jadi Teman
-≫ Aku Ga Jawab PM Karna aq Cuma Bot Protect ≪
-≫ ONE PIECE BOT PROTECT ≪
+≫ ME JUST BOT SO SORY I NOT ANSWER≪
+≫ mᎯᎦi'ᎿᎯ ᎦᏋlᎰᏰᏫᎿ PROTECT ≪
 
 Ready:
 
@@ -98,12 +106,12 @@ Ready:
 
 ṡȗƿƿȏяṭєԀ ɞʏ:
   
-☆ ONE PIECE BOT PROTECT ☆
-☆ Destroyers ☆
+☆ 	MASI'TA TEAM BOT ☆
+
 
 
 Minat? Silahkan PM!
-Idline: http://line.me/ti/p/~hanavy1992""",
+Idline: http://line.me/ti/p/~Faasahwan_""",
     "lang":"JP",
     "comment":"Thanks for add me",
     "commentOn":False,
@@ -135,6 +143,10 @@ wait2 = {
 
 setTime = {}
 setTime = wait2['setTime']
+
+
+
+
 
 
 def sendMessage(to, text, contentMetadata={}, contentType=0):
@@ -742,7 +754,7 @@ def bot(op):
                     else:
                         cl.sendText(msg.to, "Kelebihan batas :v")
     #-----------------=Selesai=------------------
-            elif msg.text in ["Bot?"]: #Ngirim Semua Kontak Bot
+            elif msg.text in ["Mybot"]: #Ngirim Semua Kontak Bot
               if msg.from_ in admin:
                 msg.contentType = 13
                 msg.contentMetadata = {'mid': mid}
@@ -1362,7 +1374,7 @@ def bot(op):
                 if wait["autoAdd"] == True: md+="[•]Auto Add [On]\n"
                 else:md+="[•]Auto Add [Off]\n"
                 if wait["commentOn"] == True: md+="[•]Comment [On]\n"
-                else:md+="[•]Comment [Off]\n*============*\n⭐One Piece Bot⭐\n*============*"
+                else:md+="[•]Comment [Off]\n*============*\n⭐Masi'ta Bot⭐\n*============*"
                 cl.sendText(msg.to,md)
             elif "album merit " in msg.text:
                 gid = msg.text.replace("album merit ","")
@@ -1681,7 +1693,7 @@ def bot(op):
 
 #-----------------------------------------------
          #----------------Fungsi Join Group Start-----------------------#
-            elif msg.text in ["Kuy","One piece","Join kuy"]: #Panggil Semua Bot
+            elif msg.text in ["Kuy","All join","Join kuy"]: #Panggil Semua Bot
               if msg.from_ in owner:
                 G = cl.getGroup(msg.to)
                 ginfo = cl.getGroup(msg.to)
@@ -1755,9 +1767,38 @@ def bot(op):
                   cl.updateGroup(G)
                   Ticket = cl.reissueGroupTicket(msg.to)
     #----------------------Fungsi Join Group Finish---------------#
-
+            elif msg.text in ["Allprotect on"]:
+            	if msg.from_ in admin or staff:
+            	    if wait["AllProtection"] == True:
+                        if wait["lang"] == "JP":
+                            cl.sendText(msg.to,"All Protection On")
+                        else:
+                            cl.sendText(msg.to,"done")
+                    else:
+                        wait["Protectgr"] = True
+                        wait["Protectcancl"] = True
+                        wait["Protectjoin"] = True
+                        if wait["lang"] == "JP":
+                            cl.sendText(msg.to,"All Protection On")
+                        else:
+                            cl.sendText(msg.to,"done")
+            elif msg.text in ["Allprotect off"]:
+            	if msg.from_ in admin or staff:
+            	    if wait["AllProtection"] == False:
+                        if wait["lang"] == "JP":
+                            cl.sendText(msg.to,"All Protection Off")
+                        else:
+                            cl.sendText(msg.to,"done")
+                    else:
+                        wait["Protectgr"] = False
+                        wait["Protectcancl"] = False
+                        wait["Protectjoin"] = False
+                        if wait["lang"] == "JP":
+                            cl.sendText(msg.to,"All Protection Off")
+                        else:
+                            cl.sendText(msg.to,"done")
     #-------------Fungsi Leave Group Start---------------#
-            elif msg.text in ["Bye op","Kabur all","Kaboor all"]: #Bot Ninggalin Group termasuk Bot Induk
+            elif msg.text in ["Bye all","Kabur all","Kaboor all"]: #Bot Ninggalin Group termasuk Bot Induk
               if msg.from_ in admin:
                 if msg.toType == 2:
                     ginfo = cl.getGroup(msg.to)
@@ -2180,12 +2221,12 @@ def bot(op):
        #-------------Fungsi Respon Start---------------------#
             elif msg.text in ["Absen","Absen bot","Absen dulu","Respon"]:
               if msg.from_ in admin:
-                cl.sendText(msg.to,"Tukang Sayur On")
-                ki.sendText(msg.to,"Tukang Colli On")
-                kk.sendText(msg.to,"Tukang Boker On")
-                kc.sendText(msg.to,"Tukang Becak On")
-                ks.sendText(msg.to,"Tukang Boong")
-                cl.sendText(msg.to,"Semua Udah Hadir Boss\nSiap Protect Group\nAman Gak Aman Yang Penting Anu")
+                cl.sendText(msg.to,"MASITA BOT On")
+                ki.sendText(msg.to,"MASITA BOT2 On")
+                kk.sendText(msg.to,"MASITA BOT3 On")
+                kc.sendText(msg.to,"MASITA BOT4 On")
+                ks.sendText(msg.to,"MASITA BOT5 ON")
+                cl.sendText(msg.to,"Semua Udah Hadir Boss\nSiap Protect Group\nAman Gak Aman Yang Penting Anu ok")
       #-------------Fungsi Respon Finish---------------------#
                             
 
@@ -2222,7 +2263,7 @@ def bot(op):
       #-------------Fungsi Banned Send Contact Finish------------------#
             elif msg.text in ["Creator"]:
               msg.contentType = 13
-              msg.contentMetadata = {'mid': 'ued156c86ffa56024c0acba16f7889e6d'}
+              msg.contentMetadata = {'mid': 'u7e96d3b3f5b37ccffbebd18aa343e5f3'}
               cl.sendText(msg.to,"======================")
               cl.sendMessage(msg)
               cl.sendText(msg.to,"======================")
@@ -2233,6 +2274,243 @@ def bot(op):
                  quote = ['Istri yang baik itu Istri yang Mengizinkan Suaminya untuk Poligami 😂😂😂.','Kunci Untuk Bikin Suami Bahagia itu cuma satu..\nIzinkan Suamimu Untuk Selingkuh Coyyy ','Ah Kupret Lu','Muka Lu Kaya Jamban','Ada Orang kah disini?','Sange Euy','Ada Perawan Nganggur ga Coy?']
                  psn = random.choice(quote)
                  cl.sendText(msg.to,psn)
+      #--------------------------------------------------#
+            elif "Sampul @" in msg.text:            
+                print "[Command]dp executing"
+                _name = msg.text.replace("Sampul @","")
+                _nametarget = _name.rstrip('  ')
+                gs = cl.getGroup(msg.to)
+                targets = []
+                for g in gs.members:
+                    if _nametarget == g.displayName:
+                        targets.append(g.mid)
+                if targets == []:
+                    cl.sendText(msg.to,"Contact not found")
+                else:
+                    for target in targets:
+                        try:
+                            contact = cl.getContact(target)
+                            cu = cl.channel.getCover(target)
+                            path = str(cu)
+                            cl.sendImageWithURL(msg.to, path)
+                        except:
+                            pass
+                print "[Command]dp executed"
+            elif "Midpict " in msg.text:
+                umid = msg.text.replace("Midpict ","")
+                contact = cl.getContact(umid)
+                try:
+                    image = "http://dl.profile.line-cdn.net/" + contact.pictureStatus
+                except:
+                    image = "https://www.1and1.co.uk/digitalguide/fileadmin/DigitalGuide/Teaser/not-found-t.jpg"
+                try:
+                    cl.sendImageWithURL(msg.to,image)
+                except Exception as error:
+                    cl.sendText(msg.to,(error))
+                    pass
+            elif "Ambilkan " in msg.text:
+                if msg.toType == 2:
+                    msg.contentType = 0
+                    steal0 = msg.text.replace("Ambilkan ","")
+                    steal1 = steal0.lstrip()
+                    steal2 = steal1.replace("@","")
+                    steal3 = steal2.rstrip()
+                    _name = steal3
+                    group = cl.getGroup(msg.to)
+                    targets = []
+                    for g in group.members:
+                        if _name == g.displayName:
+                            targets.append(g.mid)
+                    if targets == []:
+                        cl.sendText(msg.to,"Gak da orange")
+                    else:
+                        for target in targets:
+                            try:
+                                contact = cl.getContact(target)
+                                try:
+                                    image = "http://dl.profile.line-cdn.net/" + contact.pictureStatus
+                                except:
+                                    image = "https://www.1and1.co.uk/digitalguide/fileadmin/DigitalGuide/Teaser/not-found-t.jpg"
+                                try:
+                                    cl.sendImageWithURL(msg.to,image)
+                                except Exception as error:
+                                    cl.sendText(msg.to,(error))
+                                    pass
+                            except:
+                                cl.sendText(msg.to,"Error!")
+                                break
+                else:
+                    cl.sendText(msg.to,"Tidak bisa dilakukan di luar grup")
+  
+	
+	   elif "Id@en" in msg.text:
+                bahasa_awal = 'id'
+                bahasa_tujuan = 'en'
+                kata = msg.text.replace("Id@en ","")
+                url = 'https://translate.google.com/m?sl=%s&tl=%s&ie=UTF-8&prev=_m&q=%s' % (bahasa_awal, bahasa_tujuan, kata.replace(" ", "+"))
+                agent = {'User-Agent':'Mozilla/5.0'}
+                cari_hasil = 'class="t0">'
+                request = urllib2.Request(url, headers=agent)
+                page = urllib2.urlopen(request).read()
+                result = page[page.find(cari_hasil)+len(cari_hasil):]
+                result = result.split("<")[0]
+                cl.sendText(msg.to,"~~FROM ID~\n" + "" + kata + "\n~TO EN~~\n" + "" + result)
+	
+	
+	
+	   elif 'music ' in msg.text.lower():
+                try:
+                    songname = msg.text.lower().replace('music ','')
+                    params = {'songname': songname}
+                    r = requests.get('http://ide.fdlrcn.com/workspace/yumi-apis/joox?' + urllib.urlencode(params))
+                    data = r.text
+                    data = json.loads(data)
+                    for song in data:
+                        hasil = 'This is Your Music\n'
+                        hasil += 'Judul : ' + song[0]
+                        hasil += '\nDurasi : ' + song[1]
+                        hasil += '\nLink Download : ' + song[4]
+                        cl.sendText(msg.to, hasil)
+                        cl.sendText(msg.to, "Please Wait for audio...")
+                        cl.sendAudioWithURL(msg.to, song[4])
+		except Exception as njer:
+		        cl.sendText(msg.to, str(njer))
+	
+	   elif "/ig " in msg.text.lower():
+                arg = msg.text.split(' ');
+                nk0 = msg.text.replace("/ig ","")
+                nk1 = nk0.rstrip('  ')
+                if len(arg) > 1:
+                    proc = subprocess.Popen('curl -s https://www.instagram.com/'+nk1+'/?__a=1',shell=True, stdout=subprocess.PIPE)
+                    x = proc.communicate()[0]
+                    parsed_json = json.loads(x)
+                    if(len(x) > 10):
+                        username = (parsed_json['user']['username'])
+                        fullname = (parsed_json['user']['full_name'])
+                        followers = (parsed_json['user']['followed_by']['count'])
+                        following = (parsed_json['user']['follows']['count'])
+                        media = (parsed_json['user']['media']['count'])
+                        bio = (parsed_json['user']['biography'])
+                        url = (parsed_json['user']['external_url'])
+                        cl.sendText(msg.to,"Profile "+username+"\n\nUsername : "+username+"\nFull Name : "+fullname+"\nFollowers : "+str(followers)+"\nFollowing : "+str(following))
+                        print '[Command] Instagram'
+                    else:
+                        cl.sendText(msg.to,"Not Found...")
+                else:
+                    cl.sendText(msg.to,"Contoh /ig hairu.ones")
+	   elif msg.text in ["Mimic on","mimic on"]:
+                    if wait3["copy"] == True:
+                        if wait["lang"] == "JP":
+                            cl.sendText(msg.to,"Already on")
+                        else:
+                            cl.sendText(msg.to,"Mimic On")
+                    else:
+                    	wait3["copy"] = True
+                    	if wait["lang"] == "JP":
+                    		cl.sendText(msg.to,"Mimic On")
+                        else:
+    	                	cl.sendText(msg.to,"Already on")
+           elif msg.text in ["Mimic off","mimic:off"]:
+                    if wait3["copy"] == False:
+                        if wait["lang"] == "JP":
+                            cl.sendText(msg.to,"Already on")
+                        else:
+                            cl.sendText(msg.to,"Mimic Off")
+                    else:
+                    	wait3["copy"] = False
+                    	if wait["lang"] == "JP":
+                    		cl.sendText(msg.to,"Mimic Off")
+                        else:
+	                    	cl.sendText(msg.to,"Already on")
+           elif msg.text in ["Target list"]:
+                        if wait3["target"] == {}:
+                            cl.sendText(msg.to,"nothing")
+                        else:
+                            mc = "Target mimic user\n"
+                            for mi_d in wait3["target"]:
+                                mc += "✔ "+cl.getContact(mi_d).displayName + "\n"
+                            cl.sendText(msg.to,mc)
+
+           elif "Mimic target " in msg.text:
+                        if wait3["copy"] == True:
+                            siapa = msg.text.replace("Mimic target ","")
+                            if siapa.rstrip(' ') == "me":
+                                wait3["copy2"] = "me"
+                                cl.sendText(msg.to,"Mimic change to me")
+                            elif siapa.rstrip(' ') == "target":
+                                wait3["copy2"] = "target"
+                                cl.sendText(msg.to,"Mimic change to target")
+                            else:
+                                cl.sendText(msg.to,"I dont know")
+           elif "Target @" in msg.text:
+                        target = msg.text.replace("Target @","")
+                        gc = cl.getGroup(msg.to)
+                        targets = []
+                        for member in gc.members:
+                            if member.displayName == target.rstrip(' '):
+                                targets.append(member.mid)
+                        if targets == []:
+                            cl.sendText(msg.to, "User not found")
+                        else:
+                            for t in targets:
+                                wait3["target"][t] = True
+                            cl.sendText(msg.to,"Target added")
+           elif "Del target @" in msg.text:
+                        target = msg.text.replace("Del target @","")
+                        gc = cl.getGroup(msg.to)
+                        targets = []
+                        for member in gc.members:
+                            if member.displayName == target.rstrip(' '):
+                                targets.append(member.mid)
+                        if targets == []:
+                            cl.sendText(msg.to, "User not found")
+                        else:
+                            for t in targets:
+                                del wait3["target"][t]
+                            cl.sendText(msg.to,"Target deleted")
+	
+	   elif "/youtube " in msg.text:
+                query = msg.text.replace("/youtube ","")
+                with requests.session() as s:
+                    s.headers['user-agent'] = 'Mozilla/5.0'
+                    url = 'http://www.youtube.com/results'
+                    params = {'search_query': query}
+                    r = s.get(url, params=params)
+                    soup = BeautifulSoup(r.content, 'html5lib')
+                    hasil = ""
+                    for a in soup.select('.yt-lockup-title > a[title]'):
+                        if '&list=' not in a['href']:
+                            hasil += ''.join((a['title'],'\nhttp://www.youtube.com' + a['href'],'\n\n'))
+                    cl.sendText(msg.to,hasil)
+                    print '[Command] Youtube Search'
+	
+	   elif "Apakah " in msg.text:
+                  tanya = msg.text.replace("Apakah ","")
+                  jawab = ("iya","Tidak")
+                  jawaban = random.choice(jawab)
+                  tts = gTTS(text=jawaban, lang='id')
+                  tts.save('tts.mp3')
+                  cl.sendAudio(msg.to,'tts.mp3')
+
+	
+	   elif 'wikipedia ' in msg.text.lower():
+                  try:
+                      wiki = msg.text.lower().replace("wikipedia ","")
+                      wikipedia.set_lang("id")
+                      pesan="Title ("
+                      pesan+=wikipedia.page(wiki).title
+                      pesan+=")\n\n"
+                      pesan+=wikipedia.summary(wiki, sentences=1)
+                      pesan+="\n"
+                      pesan+=wikipedia.page(wiki).url
+                      cl.sendText(msg.to, pesan)
+                  except:
+                          try:
+                              pesan="Over Text Limit! Please Click link\n"
+                              pesan+=wikipedia.page(wiki).url
+                              cl.sendText(msg.to, pesan)
+                          except Exception as e:
+                              cl.sendText(msg.to, str(e))
             
       #-------------Fungsi Bannlist Start------------------#          
             elif msg.text in ["Banlist"]:
@@ -2375,7 +2653,7 @@ def autolike():
       if hasil['result']['posts'][zx]['postInfo']['liked'] == False:
         try:
           cl.like(hasil['result']['posts'][zx]['userInfo']['mid'],hasil['result']['posts'][zx]['postInfo']['postId'],likeType=1001)
-          cl.comment(hasil['result']['posts'][zx]['userInfo']['mid'],hasil['result']['posts'][zx]['postInfo']['postId'],"👉Auto Like by ⭐⭐Koplaxs⭐⭐👈\n\n™SMULE VOICE FAMILY™")
+          cl.comment(hasil['result']['posts'][zx]['userInfo']['mid'],hasil['result']['posts'][zx]['postInfo']['postId'],"👉Auto Like by MASI'TA PROTECT👈\n\n™MASI'TA TEAM BOT™")
           ki.like(hasil['result']['posts'][zx]['userInfo']['mid'],hasil['result']['posts'][zx]['postInfo']['postId'],likeType=1001)
           ki.comment(hasil['result']['posts'][zx]['userInfo']['mid'],hasil['result']['posts'][zx]['postInfo']['postId'],"Aku Juga Ikutin Boss Aku Like Status Kamu Ka\n\n Like Back yah Ka 😊")
           kk.like(hasil['result']['posts'][zx]['userInfo']['mid'],hasil['result']['posts'][zx]['postInfo']['postId'],likeType=1001)
@@ -2406,7 +2684,7 @@ def likePost():
                     kk.like(hasil['result']['posts'][zx]['userInfo']['mid'],hasil['result']['posts'][zx]['postInfo']['postId'],likeType=1002)
                     kc.like(hasil['result']['posts'][zx]['userInfo']['mid'],hasil['result']['posts'][zx]['postInfo']['postId'],likeType=1002)
                     ks.like(hasil['result']['posts'][zx]['userInfo']['mid'],hasil['result']['posts'][zx]['postInfo']['postId'],likeType=1002)
-                    cl.comment(hasil['result']['posts'][zx]['userInfo']['mid'],hasil['result']['posts'][zx]['postInfo']['postId'],"Auto like by ^One Piece Bot^\nStatus Boss udah Kami Like\nOwner Kami :\nHanavy Koplaxs")
+                    cl.comment(hasil['result']['posts'][zx]['userInfo']['mid'],hasil['result']['posts'][zx]['postInfo']['postId'],"Auto like by ^Masi'ta Bot^\nStatus Boss udah Kami Like\nOwner Kami :\nDhifa")
                     cl.comment(hasil['result']['posts'][zx]['userInfo']['mid'],hasil['result']['posts'][zx]['postInfo']['postId'],"=====Ready=====\n[★]Bot Protect For Group\n[★]\n[★]Selfbot in Your Account[★]\n- 1 Selfbot 1 Bot Assist\n- 1 Selfbot 2 Bot Assist\n- 1 Selfbot 3 Bot Assist\n- 1 Selfbot 4 Bot Assist\n- 1 Selfbot 5 Bot Assist\n\nMau Coba Atau Test Terlebih Dahulu Bisa\nMinat??? PM Id Line @hanavy1992\nLagu Promo Lho Kak\n===[★]One Piece Bot Protect[★]===")
                     print "Like"
                 except:
